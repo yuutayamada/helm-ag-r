@@ -6,7 +6,7 @@
 (defvar helm-ag-by-process-directory '())
 
 (defvar helm-ag-by-process-source
-  '((name . "helm-ag-process")
+  '((name . "helm-ag-by-process")
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
