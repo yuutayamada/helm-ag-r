@@ -29,7 +29,13 @@
 (defvar helm-ag-by-process-get-command
   (lambda (pattern)
     (let*
-        ((patterns (split-string pattern))
+        ((set-attribute
+          (lambda (attr)
+            (helm-attrset 'action
+                               (car
+                                (assoc-default attr helm-ag-by-process-actions))
+                               helm-ag-by-process-source)))
+         (patterns (split-string pattern))
          (directory helm-ag-by-process-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
@@ -41,6 +47,9 @@
           (replace-regexp-in-string
            " | $" ""
            (mapconcat 'identity (funcall create-ag-command patterns) ""))))
+      (if (< 1 (length patterns))
+          (funcall set-attribute :open)
+        (funcall set-attribute :move))
       ag-commands)))
 
 (defvar helm-ag-by-process-function
