@@ -47,4 +47,8 @@
         :prompt "ag: "
         :buffer "*helm ag process*"))
 
+(defun helm-ag-by-process-from-current-file ()
+  (interactive)
+  (helm-ag-by-process buffer-file-name))
+
 (provide 'helm-ag-by-process)
