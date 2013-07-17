@@ -8,6 +8,8 @@
 
 (defvar helm-ag-by-process-source
   '((name . "helm-ag-by-process")
+    (header-name . (lambda (name)
+                     (format "%s (%s)" name helm-ag-base-command)))
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
