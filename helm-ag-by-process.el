@@ -24,7 +24,7 @@
          (directory helm-ag-by-process-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
-            (loop with ag = "\\ag --nocolor "
+            (loop with ag = helm-ag-base-command
                   for search-word in minibuffer-patterns
                   for dir = directory then ""
                   collect (concat ag " \"" search-word "\" " dir " | "))))
