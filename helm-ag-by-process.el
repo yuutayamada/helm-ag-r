@@ -10,12 +10,21 @@
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
-    (action . (("Open File" . (lambda (c)
-                                (helm-ag-find-file-action c 'find-file)))
-               ("Open File Other Window" .
-                (lambda (c)
-                  (helm-ag-find-file-action c 'find-file-other-window)))))
     (delayed)))
+
+(defvar helm-ag-by-process-actions
+  '((:open
+     (("Open File" . (lambda (c)
+                       (helm-ag-find-file-action c 'find-file)))
+      ("Open File Other Window" .
+       (lambda (c)
+         (helm-ag-find-file-action c 'find-file-other-window)))))
+    (:move
+     (("Move the line" . (lambda (line)
+                           (string-match "^\\([0-9]*\\):" line)
+                           (goto-char (point-min))
+                           (forward-line (1- (string-to-number
+                                              (match-string 1 line))))))))))
 
 (defvar helm-ag-by-process-get-command
   (lambda (pattern)
@@ -49,6 +58,9 @@
 
 (defun helm-ag-by-process-from-current-file ()
   (interactive)
+  (helm-attrset 'action
+                (car (assoc-default :move helm-ag-by-process-actions))
+                helm-ag-by-process-source)
   (helm-ag-by-process buffer-file-name))
 
 (provide 'helm-ag-by-process)
