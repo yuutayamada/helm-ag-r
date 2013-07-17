@@ -4,6 +4,7 @@
 (require 'helm-ag)
 
 (defvar helm-ag-by-process-directory '())
+(defvar helm-ag-base-command-list `(,helm-ag-base-command))
 
 (defvar helm-ag-by-process-source
   '((name . "helm-ag-by-process")
@@ -58,12 +59,32 @@
      "emacs-helm-ag-process" nil "/bin/sh" "-c"
      (funcall helm-ag-by-process-get-command helm-pattern))))
 
+(defvar helm-ag-by-process-keymap
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map helm-map)
+    (define-key map (kbd "C-o") 'helm-ag-by-process-change-option)
+    map))
+
 (defun helm-ag-by-process (&optional directory)
   (interactive)
   (setq helm-ag-by-process-directory (or directory default-directory))
   (helm :sources helm-ag-by-process-source
         :prompt "ag: "
-        :buffer "*helm ag process*"))
+        :buffer "*helm ag process*"
+        :keymap helm-ag-by-process-keymap))
+
+(defun helm-ag-by-process-change-option ()
+  (interactive)
+  (setq helm-ag-base-command
+        (loop with length = (length helm-ag-base-command-list)
+              for i from 0 to (1- length)
+              for num = (if (equal (1- length) i)
+                            0
+                          (1+ i))
+              for next-command = (nth num helm-ag-base-command-list)
+              for old-command =  (nth i helm-ag-base-command-list)
+              if (equal helm-ag-base-command old-command)
+              do (return next-command))))
 
 (defun helm-ag-by-process-from-current-file ()
   (interactive)
