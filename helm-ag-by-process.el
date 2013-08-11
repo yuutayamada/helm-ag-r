@@ -4,7 +4,7 @@
 (require 'helm-ag)
 
 (defvar helm-ag-by-process-directory '())
-(defvar helm-ag-base-command-list `(,helm-ag-base-command))
+(defvar helm-ag-by-process-option-list '())
 
 (defvar helm-ag-by-process-source
   '((name . "helm-ag-by-process")
@@ -43,9 +43,10 @@
          (create-ag-command
           (lambda (minibuffer-patterns)
             (loop with ag = helm-ag-base-command
+                  with options = (car helm-ag-by-process-option-list)
                   for search-word in minibuffer-patterns
                   for dir = directory then ""
-                  collect (concat ag " \"" search-word "\" " dir " | "))))
+                  collect (concat ag options " \"" search-word "\" " dir " | "))))
          (ag-commands
           (replace-regexp-in-string
            " | $" ""
@@ -77,16 +78,10 @@
 
 (defun helm-ag-by-process-change-option ()
   (interactive)
-  (setq helm-ag-base-command
-        (loop with length = (length helm-ag-base-command-list)
-              for i from 0 to (1- length)
-              for num = (if (equal (1- length) i)
-                            0
-                          (1+ i))
-              for next-command = (nth num helm-ag-base-command-list)
-              for old-command =  (nth i helm-ag-base-command-list)
-              if (equal helm-ag-base-command old-command)
-              do (return next-command))))
+  (setq helm-ag-by-process-option-list
+        (append
+         (cdr helm-ag-by-process-option-list)
+         (car helm-ag-by-process-option-list))))
 
 (defun helm-ag-by-process-from-current-file ()
   (interactive)
