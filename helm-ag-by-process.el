@@ -88,11 +88,4 @@
          (cdr helm-ag-by-process-option-list)
          (car helm-ag-by-process-option-list))))
 
-(defun helm-ag-by-process-from-current-file ()
-  (interactive)
-  (helm-attrset 'action
-                (car (assoc-default :move helm-ag-by-process-actions))
-                helm-ag-by-process-source)
-  (helm-ag-by-process buffer-file-name))
-
 (provide 'helm-ag-by-process)
