@@ -17,11 +17,11 @@
 
 (defvar helm-ag-by-process-actions
   '((:open
-     (("Open File" . (lambda (c)
-                       (helm-ag-find-file-action c 'find-file)))
+     (("Open File" . (lambda (candidate)
+                       (helm-ag-find-file-action candidate 'find-file)))
       ("Open File Other Window" .
-       (lambda (c)
-         (helm-ag-find-file-action c 'find-file-other-window)))))
+       (lambda (candidate)
+         (helm-ag-find-file-action candidate 'find-file-other-window)))))
     (:move
      (("Move the line" . (lambda (line)
                            (string-match "^\\([0-9]*\\)\\(:\\|-\\)" line)
