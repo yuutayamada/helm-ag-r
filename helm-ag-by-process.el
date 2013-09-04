@@ -1,4 +1,4 @@
-;;; -*- coding: utf-8; mode: emacs-lisp; -*-
+;;; -*- coding: utf-8; mode: emacs-lisp; lexical-binding: t; -*-
 (eval-when-compile (require 'cl))
 (require 'helm)
 
