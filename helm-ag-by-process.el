@@ -49,9 +49,9 @@
                   collect (concat ag options " \"" search-word "\" " d-f))))
          (ag-commands
           (mapconcat 'identity (funcall create-ag-command patterns) " | ")))
-      (if (< 1 (length patterns))
-          (funcall set-attribute :open)
-        (funcall set-attribute :move))
+      (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
+          (funcall set-attribute :move)
+        (funcall set-attribute :open))
       (setq helm-ag-by-process-current-command ag-commands)
       ag-commands)))
 
