@@ -25,7 +25,7 @@
          (helm-ag-find-file-action c 'find-file-other-window)))))
     (:move
      (("Move the line" . (lambda (line)
-                           (string-match "^\\([0-9]*\\):" line)
+                           (string-match "^\\([0-9]*\\)\\(:\\|-\\)" line)
                            (goto-char (point-min))
                            (forward-line (1- (string-to-number
                                               (match-string 1 line))))))))))
