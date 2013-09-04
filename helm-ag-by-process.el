@@ -46,11 +46,9 @@
                   for options = (car helm-ag-by-process-option-list) then " "
                   for search-word in minibuffer-patterns
                   for d-f = dir-or-file then ""
-                  collect (concat ag options " \"" search-word "\" " d-f " | "))))
+                  collect (concat ag options " \"" search-word "\" " d-f))))
          (ag-commands
-          (replace-regexp-in-string
-           " | $" ""
-           (mapconcat 'identity (funcall create-ag-command patterns) ""))))
+          (mapconcat 'identity (funcall create-ag-command patterns) " | ")))
       (if (< 1 (length patterns))
           (funcall set-attribute :open)
         (funcall set-attribute :move))
