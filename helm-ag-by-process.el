@@ -42,8 +42,8 @@
          (dir-or-file helm-ag-by-process-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
-            (loop with ag = "ag --nocolor --nogroup"
-                  with options = (car helm-ag-by-process-option-list)
+            (loop for ag = "ag --nocolor --nogroup" then "ag --nocolor"
+                  for options = (car helm-ag-by-process-option-list) then " "
                   for search-word in minibuffer-patterns
                   for d-f = dir-or-file then ""
                   collect (concat ag options " \"" search-word "\" " d-f " | "))))
