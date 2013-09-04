@@ -1,7 +1,6 @@
 ;;; -*- coding: utf-8; mode: emacs-lisp; -*-
 (eval-when-compile (require 'cl))
 (require 'helm)
-(require 'helm-ag)
 
 (defvar helm-ag-by-process-directory '())
 (defvar helm-ag-by-process-option-list '())
@@ -43,7 +42,7 @@
          (dir-or-file helm-ag-by-process-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
-            (loop with ag = helm-ag-base-command
+            (loop with ag = "ag --nocolor --nogroup"
                   with options = (car helm-ag-by-process-option-list)
                   for search-word in minibuffer-patterns
                   for d-f = dir-or-file then ""
