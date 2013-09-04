@@ -76,6 +76,10 @@
         :buffer "*helm ag process*"
         :keymap helm-ag-by-process-keymap))
 
+(defun helm-ag-by-process-current-file ()
+  (interactive)
+  (helm-ag-by-process buffer-file-name))
+
 (defun helm-ag-by-process-change-option ()
   (interactive)
   (setq helm-ag-by-process-option-list
