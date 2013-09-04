@@ -40,14 +40,14 @@
                                 (assoc-default attr helm-ag-by-process-actions))
                                helm-ag-by-process-source)))
          (patterns (split-string pattern))
-         (directory helm-ag-by-process-directory)
+         (dir-or-file helm-ag-by-process-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
             (loop with ag = helm-ag-base-command
                   with options = (car helm-ag-by-process-option-list)
                   for search-word in minibuffer-patterns
-                  for dir = directory then ""
-                  collect (concat ag options " \"" search-word "\" " dir " | "))))
+                  for d-f = dir-or-file then ""
+                  collect (concat ag options " \"" search-word "\" " d-f " | "))))
          (ag-commands
           (replace-regexp-in-string
            " | $" ""
