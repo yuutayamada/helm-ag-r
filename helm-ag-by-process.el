@@ -69,9 +69,9 @@
     (define-key map (kbd "C-o") 'helm-ag-by-process-change-option)
     map))
 
-(defun helm-ag-by-process (&optional directory)
+(defun helm-ag-by-process (&optional file-or-directory)
   (interactive)
-  (setq helm-ag-by-process-directory (or directory default-directory))
+  (setq helm-ag-by-process-directory (or file-or-directory default-directory))
   (helm :sources helm-ag-by-process-source
         :prompt "ag: "
         :buffer "*helm ag process*"
