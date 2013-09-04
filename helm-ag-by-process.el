@@ -10,10 +10,18 @@
   '((name . "helm-ag-by-process")
     (header-name . (lambda (name)
                      (format "%s (%s)" name helm-ag-by-process-current-command)))
+    (real-to-display . helm-ag-by-process-remove-dir-name)
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
     (delayed)))
+
+(defun helm-ag-by-process-remove-dir-name (line)
+  (let* ((all (split-string line ":"))
+         (path    (file-relative-name (nth 0 all)))
+         (num     (nth 1 all))
+         (content (nth 2 all)))
+    (mapconcat 'identity (list path num content) ":")))
 
 (defvar helm-ag-by-process-actions
   '((:open
