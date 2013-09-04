@@ -86,6 +86,6 @@
   (setq helm-ag-by-process-option-list
         (append
          (cdr helm-ag-by-process-option-list)
-         (car helm-ag-by-process-option-list))))
+         (list (car helm-ag-by-process-option-list)))))
 
 (provide 'helm-ag-by-process)
