@@ -5,11 +5,12 @@
 
 (defvar helm-ag-by-process-directory '())
 (defvar helm-ag-by-process-option-list '())
+(defvar helm-ag-by-process-current-command '())
 
 (defvar helm-ag-by-process-source
   '((name . "helm-ag-by-process")
     (header-name . (lambda (name)
-                     (format "%s (%s)" name helm-ag-base-command)))
+                     (format "%s (%s)" name helm-ag-by-process-current-command)))
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
@@ -54,6 +55,7 @@
       (if (< 1 (length patterns))
           (funcall set-attribute :open)
         (funcall set-attribute :move))
+      (setq helm-ag-by-process-current-command ag-commands)
       ag-commands)))
 
 (defvar helm-ag-by-process-function
