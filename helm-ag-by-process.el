@@ -35,9 +35,9 @@
         ((set-attribute
           (lambda (attr)
             (helm-attrset 'action
-                               (car
-                                (assoc-default attr helm-ag-by-process-actions))
-                               helm-ag-by-process-source)))
+                          (car
+                           (assoc-default attr helm-ag-by-process-actions))
+                          helm-ag-by-process-source)))
          (patterns (split-string pattern))
          (dir-or-file helm-ag-by-process-directory)
          (create-ag-command
