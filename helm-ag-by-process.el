@@ -95,4 +95,21 @@
          (list (car helm-ag-by-process-option-list))))
   (helm-update))
 
+(defun helm-ag-by-process-from-git-repo ()
+  (interactive)
+  (helm-ag-by-process (helm-ag-by-process-get-top-dir)))
+
+(defun helm-ag-by-process-get-top-dir (&optional cwd)
+  (setq cwd (expand-file-name (file-truename (or cwd default-directory))))
+  (when (file-directory-p cwd)
+    (let* ((chomp (lambda (str)
+                    (when (equal (elt str (- (length str) 1)) ?\n)
+                      (substring str 0 (- (length str) 1)))))
+           (default-directory (file-name-as-directory cwd))
+           (repository-top
+            (funcall chomp
+                     (shell-command-to-string "git rev-parse --show-toplevel"))))
+      (when repository-top
+        (file-name-as-directory (expand-file-name repository-top cwd))))))
+
 (provide 'helm-ag-by-process)
