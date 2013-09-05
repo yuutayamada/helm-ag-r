@@ -75,6 +75,7 @@
     (define-key map (kbd "C-o") 'helm-ag-by-process-change-option)
     map))
 
+;;;###autoload
 (defun helm-ag-by-process (&optional file-or-directory)
   (interactive)
   (setq helm-ag-by-process-directory (or file-or-directory default-directory))
@@ -83,6 +84,7 @@
         :buffer "*helm ag process*"
         :keymap helm-ag-by-process-keymap))
 
+;;;###autoload
 (defun helm-ag-by-process-current-file ()
   (interactive)
   (helm-ag-by-process buffer-file-name))
@@ -95,6 +97,7 @@
          (list (car helm-ag-by-process-option-list))))
   (helm-update))
 
+;;;###autoload
 (defun helm-ag-by-process-from-git-repo ()
   (interactive)
   (helm-ag-by-process (helm-ag-by-process-get-top-dir)))
