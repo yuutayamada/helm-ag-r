@@ -2,28 +2,28 @@
 (eval-when-compile (require 'cl))
 (require 'helm)
 
-(defvar helm-ag-by-process-directory '())
-(defvar helm-ag-by-process-option-list '())
-(defvar helm-ag-by-process-current-command '())
+(defvar helm-ag-r-directory '())
+(defvar helm-ag-r-option-list '())
+(defvar helm-ag-r-current-command '())
 
-(defvar helm-ag-by-process-source
-  '((name               . "helm-ag-by-process")
+(defvar helm-ag-r-source
+  '((name               . "helm-ag-r")
     (header-name        . (lambda (name)
-                            (format "%s (%s)" name helm-ag-by-process-current-command)))
-    (real-to-display    . helm-ag-by-process-remove-dir-name)
+                            (format "%s (%s)" name helm-ag-r-current-command)))
+    (real-to-display    . helm-ag-r-remove-dir-name)
     (candidates-process . (lambda ()
-                            (funcall helm-ag-by-process-function)))
+                            (funcall helm-ag-r-function)))
     (candidates-in-buffer)
     (delayed)))
 
-(defun helm-ag-by-process-remove-dir-name (line)
+(defun helm-ag-r-remove-dir-name (line)
   (let* ((all (split-string line ":"))
          (path    (file-relative-name (nth 0 all)))
          (num     (nth 1 all))
          (content (nth 2 all)))
     (mapconcat 'identity (list path num content) ":")))
 
-(defvar helm-ag-by-process-actions
+(defvar helm-ag-r-actions
   '((:open
      (("Open File" . (lambda (candidate)
                        (helm-ag-find-file-action candidate 'find-file)))
@@ -37,21 +37,21 @@
                            (forward-line (1- (string-to-number
                                               (match-string 1 line))))))))))
 
-(defvar helm-ag-by-process-get-command
+(defvar helm-ag-r-get-command
   (lambda (pattern)
     (let*
         ((set-attribute
           (lambda (attr)
             (helm-attrset 'action
                           (car
-                           (assoc-default attr helm-ag-by-process-actions))
-                          helm-ag-by-process-source)))
+                           (assoc-default attr helm-ag-r-actions))
+                          helm-ag-r-source)))
          (patterns (split-string pattern))
-         (dir-or-file helm-ag-by-process-directory)
+         (dir-or-file helm-ag-r-directory)
          (create-ag-command
           (lambda (minibuffer-patterns)
             (loop for ag = "ag --nocolor --nogroup" then "ag --nocolor"
-                  for options = (car helm-ag-by-process-option-list) then " "
+                  for options = (car helm-ag-r-option-list) then " "
                   for search-word in minibuffer-patterns
                   for d-f = dir-or-file then ""
                   collect (concat ag " " options " \"" search-word "\" " d-f))))
@@ -60,49 +60,49 @@
       (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
           (funcall set-attribute :move)
         (funcall set-attribute :open))
-      (setq helm-ag-by-process-current-command ag-commands)
+      (setq helm-ag-r-current-command ag-commands)
       ag-commands)))
 
-(defvar helm-ag-by-process-function
+(defvar helm-ag-r-function
   (lambda ()
     (start-process
-     "emacs-helm-ag-process" nil "/bin/sh" "-c"
-     (funcall helm-ag-by-process-get-command helm-pattern))))
+     "emacs-helm-ag-rrocess" nil "/bin/sh" "-c"
+     (funcall helm-ag-r-get-command helm-pattern))))
 
-(defvar helm-ag-by-process-keymap
+(defvar helm-ag-r-keymap
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map helm-map)
-    (define-key map (kbd "C-o") 'helm-ag-by-process-change-option)
+    (define-key map (kbd "C-o") 'helm-ag-r-change-option)
     map))
 
 ;;;###autoload
-(defun helm-ag-by-process (&optional file-or-directory)
+(defun helm-ag-r (&optional file-or-directory)
   (interactive)
-  (setq helm-ag-by-process-directory (or file-or-directory default-directory))
-  (helm :sources helm-ag-by-process-source
+  (setq helm-ag-r-directory (or file-or-directory default-directory))
+  (helm :sources helm-ag-r-source
         :prompt "ag: "
         :buffer "*helm ag process*"
-        :keymap helm-ag-by-process-keymap))
+        :keymap helm-ag-r-keymap))
 
 ;;;###autoload
-(defun helm-ag-by-process-current-file ()
+(defun helm-ag-r-current-file ()
   (interactive)
-  (helm-ag-by-process buffer-file-name))
+  (helm-ag-r buffer-file-name))
 
-(defun helm-ag-by-process-change-option ()
+(defun helm-ag-r-change-option ()
   (interactive)
-  (setq helm-ag-by-process-option-list
+  (setq helm-ag-r-option-list
         (append
-         (cdr helm-ag-by-process-option-list)
-         (list (car helm-ag-by-process-option-list))))
+         (cdr helm-ag-r-option-list)
+         (list (car helm-ag-r-option-list))))
   (helm-update))
 
 ;;;###autoload
-(defun helm-ag-by-process-from-git-repo ()
+(defun helm-ag-r-from-git-repo ()
   (interactive)
-  (helm-ag-by-process (helm-ag-by-process-get-top-dir)))
+  (helm-ag-r (helm-ag-r-get-top-dir)))
 
-(defun helm-ag-by-process-get-top-dir (&optional cwd)
+(defun helm-ag-r-get-top-dir (&optional cwd)
   (setq cwd (expand-file-name (file-truename (or cwd default-directory))))
   (when (file-directory-p cwd)
     (let* ((chomp (lambda (str)
@@ -115,4 +115,4 @@
       (when repository-top
         (file-name-as-directory (expand-file-name repository-top cwd))))))
 
-(provide 'helm-ag-by-process)
+(provide 'helm-ag-r)
