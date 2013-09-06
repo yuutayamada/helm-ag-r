@@ -7,10 +7,10 @@
 (defvar helm-ag-by-process-current-command '())
 
 (defvar helm-ag-by-process-source
-  '((name . "helm-ag-by-process")
-    (header-name . (lambda (name)
-                     (format "%s (%s)" name helm-ag-by-process-current-command)))
-    (real-to-display . helm-ag-by-process-remove-dir-name)
+  '((name               . "helm-ag-by-process")
+    (header-name        . (lambda (name)
+                            (format "%s (%s)" name helm-ag-by-process-current-command)))
+    (real-to-display    . helm-ag-by-process-remove-dir-name)
     (candidates-process . (lambda ()
                             (funcall helm-ag-by-process-function)))
     (candidates-in-buffer)
