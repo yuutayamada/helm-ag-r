@@ -23,13 +23,24 @@
          (content (nth 2 all)))
     (mapconcat 'identity (list path num content) ":")))
 
+(defun helm-ag-r-find-file-action (candidate find-func)
+  (let* ((elems (split-string candidate ":"))
+         (search-this-file (helm-attr 'search-this-file))
+         (filename (or search-this-file (first elems)))
+         (line (string-to-number (if search-this-file
+                                     (first elems)
+                                   (second elems)))))
+    (funcall find-func filename)
+    (goto-char (point-min))
+    (forward-line (1- line))))
+
 (defvar helm-ag-r-actions
   '((:open
      (("Open File" . (lambda (candidate)
-                       (helm-ag-find-file-action candidate 'find-file)))
+                       (helm-ag-r-find-file-action candidate 'find-file)))
       ("Open File Other Window" .
        (lambda (candidate)
-         (helm-ag-find-file-action candidate 'find-file-other-window)))))
+         (helm-ag-r-find-file-action candidate 'find-file-other-window)))))
     (:move
      (("Move the line" . (lambda (line)
                            (string-match "^\\([0-9]*\\)\\(:\\|-\\)" line)
