@@ -85,9 +85,9 @@
         for cmd = (funcall first-command ag search full) then full
         collect cmd))
 
-(defun helm-ag-r-pype (command)
+(defun helm-ag-r-pype (command &optional source)
   (let ((helm-ag-r-base-command command))
-    (helm-ag-r nil t)))
+    (helm-ag-r nil t source)))
 
 (defvar helm-ag-r-function
   (lambda ()
@@ -101,12 +101,22 @@
     (define-key map (kbd "C-o") 'helm-ag-r-change-option)
     map))
 
+(defun helm-ag-r-override-source (source)
+  (loop with result = '()
+        for (prefix . content) in helm-ag-r-source
+        if (assoc prefix source)
+        collect it into result
+        else collect (cons prefix content) into result
+        finally return result))
+
 ;;;###autoload
-(defun helm-ag-r (&optional file-or-directory use-from-pype)
+(defun helm-ag-r (&optional file-or-directory use-from-pype source)
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
   (helm :sources (if use-from-pype
-                     helm-ag-r-source
+                     (if source
+                         (helm-ag-r-override-source source)
+                         helm-ag-r-source)
                      (append helm-ag-r-source
                              (list
                               '(real-to-display . helm-ag-r-remove-dir-name))))
