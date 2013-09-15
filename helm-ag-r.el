@@ -59,20 +59,20 @@
                           helm-ag-r-source)))
          (patterns (split-string pattern))
          (dir-or-file helm-ag-r-directory)
-         (create-ag-command
-          (lambda (minibuffer-patterns)
-            (loop for ag = "ag --nocolor --nogroup" then "ag --nocolor"
-                  for options = (car helm-ag-r-option-list) then " "
-                  for search-word in minibuffer-patterns
-                  for d-f = dir-or-file then ""
-                  collect (concat ag " " options " \"" search-word "\" " d-f))))
          (ag-commands
-          (mapconcat 'identity (funcall create-ag-command patterns) " | ")))
+          (mapconcat 'identity (helm-ag-r-create-command patterns) " | ")))
       (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
           (funcall set-attribute :move)
         (funcall set-attribute :open))
       (setq helm-ag-r-current-command ag-commands)
       ag-commands)))
+
+(defun helm-ag-r-create-command (patterns)
+  (loop for ag = "ag --nocolor --nogroup" then "ag --nocolor"
+        for options = (car helm-ag-r-option-list) then " "
+        for search-word in patterns
+        for d-f = helm-ag-r-directory then ""
+        collect (concat ag " " options " \"" search-word "\" " d-f)))
 
 (defvar helm-ag-r-function
   (lambda ()
