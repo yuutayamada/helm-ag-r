@@ -10,7 +10,6 @@
   '((name               . "helm-ag-r")
     (header-name        . (lambda (name)
                             (format "%s (%s)" name helm-ag-r-current-command)))
-    (real-to-display    . helm-ag-r-remove-dir-name)
     (candidates-process . (lambda ()
                             (funcall helm-ag-r-function)))
     (candidates-in-buffer)
@@ -87,10 +86,14 @@
     map))
 
 ;;;###autoload
-(defun helm-ag-r (&optional file-or-directory)
+(defun helm-ag-r (&optional file-or-directory use-from-pype)
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
-  (helm :sources helm-ag-r-source
+  (helm :sources (if use-from-pype
+                     helm-ag-r-source
+                     (append helm-ag-r-source
+                             (list
+                              '(real-to-display . helm-ag-r-remove-dir-name))))
         :prompt "ag: "
         :buffer "*helm ag process*"
         :keymap helm-ag-r-keymap))
