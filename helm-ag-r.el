@@ -5,6 +5,8 @@
 (defvar helm-ag-r-directory '())
 (defvar helm-ag-r-option-list '())
 (defvar helm-ag-r-current-command '())
+(defvar helm-ag-r-base-command nil)
+(defvar helm-ag-r-user-option nil)
 
 (defvar helm-ag-r-source
   '((name               . "helm-ag-r")
@@ -67,11 +69,25 @@
       ag-commands)))
 
 (defun helm-ag-r-create-command (patterns)
-  (loop for ag = "ag --nocolor --nogroup" then "ag --nocolor"
+  (loop with first-command = (lambda (ag search full)
+                               (if helm-ag-r-base-command
+                                   (concat helm-ag-r-base-command
+                                           " | " ag " " search)
+                                 full))
+        with opt = helm-ag-r-user-option
+        with ag-base = (when opt (concat "ag " opt))
+        for ag = (or ag-base "ag --nocolor --nogroup") then "ag --nocolor"
         for options = (car helm-ag-r-option-list) then " "
         for search-word in patterns
+        for search = (shell-quote-argument search-word)
         for d-f = helm-ag-r-directory then ""
-        collect (concat ag " " options " \"" search-word "\" " d-f)))
+        for full = (concat ag " " options " " search " " d-f)
+        for cmd = (funcall first-command ag search full) then full
+        collect cmd))
+
+(defun helm-ag-r-pype (command)
+  (let ((helm-ag-r-base-command command))
+    (helm-ag-r nil t)))
 
 (defvar helm-ag-r-function
   (lambda ()
