@@ -15,14 +15,17 @@
     (candidates-process . (lambda ()
                             (funcall helm-ag-r-function)))
     (candidates-in-buffer)
+    (real-to-display . helm-ag-r-remove-dir-name)
     (delayed)))
 
 (defun helm-ag-r-remove-dir-name (line)
-  (let* ((all (split-string line ":"))
-         (path    (file-relative-name (nth 0 all)))
-         (num     (nth 1 all))
-         (content (nth 2 all)))
-    (mapconcat 'identity (list path num content) ":")))
+  (if (string-match "^.+:[0-9]+:." line)
+      (let* ((all (split-string line ":"))
+             (path    (file-relative-name (nth 0 all)))
+             (num     (nth 1 all))
+             (content (nth 2 all)))
+        (mapconcat 'identity (list path num content) ":"))
+    line))
 
 (defun helm-ag-r-find-file-action (candidate find-func)
   (let* ((elems (split-string candidate ":"))
@@ -116,10 +119,7 @@
   (let* ((src (if source
                   (helm-ag-r-override-source source)
                 helm-ag-r-source)))
-    (helm :sources (if use-from-pype
-                       src
-                     (append src
-                             '((real-to-display . helm-ag-r-remove-dir-name))))
+    (helm :sources src
           :prompt "ag: "
           :buffer "*helm ag r"
           :keymap helm-ag-r-keymap)))
