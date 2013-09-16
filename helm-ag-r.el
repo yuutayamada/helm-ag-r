@@ -113,16 +113,17 @@
 (defun helm-ag-r (&optional file-or-directory use-from-pype source)
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
-  (helm :sources (if use-from-pype
-                     (if source
-                         (helm-ag-r-override-source source)
-                         helm-ag-r-source)
-                     (append helm-ag-r-source
+  (let* ((src (if source
+                  (helm-ag-r-override-source source)
+                helm-ag-r-source)))
+    (helm :sources (if use-from-pype
+                       src
+                     (append src
                              (list
                               '(real-to-display . helm-ag-r-remove-dir-name))))
-        :prompt "ag: "
-        :buffer "*helm ag process*"
-        :keymap helm-ag-r-keymap))
+          :prompt "ag: "
+          :buffer "*helm ag process*"
+          :keymap helm-ag-r-keymap)))
 
 ;;;###autoload
 (defun helm-ag-r-current-file ()
