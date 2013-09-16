@@ -90,7 +90,7 @@
 
 (defun helm-ag-r-pype (command &optional source)
   (let ((helm-ag-r-base-command command))
-    (helm-ag-r nil t source)))
+    (helm-ag-r nil source)))
 
 (defvar helm-ag-r-function
   (lambda ()
@@ -113,7 +113,7 @@
         finally return result))
 
 ;;;###autoload
-(defun helm-ag-r (&optional file-or-directory use-from-pype source)
+(defun helm-ag-r (&optional file-or-directory source)
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
   (let* ((src (if source
