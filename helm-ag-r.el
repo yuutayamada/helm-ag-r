@@ -121,7 +121,7 @@
                      (append src
                              '((real-to-display . helm-ag-r-remove-dir-name))))
           :prompt "ag: "
-          :buffer "*helm ag process*"
+          :buffer "*helm ag r"
           :keymap helm-ag-r-keymap)))
 
 ;;;###autoload
