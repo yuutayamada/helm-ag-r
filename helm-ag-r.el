@@ -119,8 +119,7 @@
     (helm :sources (if use-from-pype
                        src
                      (append src
-                             (list
-                              '(real-to-display . helm-ag-r-remove-dir-name))))
+                             '((real-to-display . helm-ag-r-remove-dir-name))))
           :prompt "ag: "
           :buffer "*helm ag process*"
           :keymap helm-ag-r-keymap)))
