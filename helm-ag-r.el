@@ -22,12 +22,12 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; Usage(sample)
+;; Usage
 ;; set below configuration to your .emacs
 ;; (add-to-list 'load-path "path/to/this-package-directory")
 ;; (require 'helm-ag-r)
 ;; You can change ag's option by pushing C-o from below variable on minibuffer
-;; See ag --help about available option
+;; See ag --help about available options
 ;; (setq helm-ag-r-option-list
 ;;       '("-S -U --hidden"
 ;;         "-S -U -l"))
