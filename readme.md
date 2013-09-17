@@ -2,6 +2,9 @@
 
 This is program to search something by [ag](https://github.com/ggreer/the_silver_searcher) and display by helm.
 
+### Requirements
+You need to install **ag** and **helm** to use this package.
+
 ### Installation
 If you use el-get, you set below configuration to your .emacs.
 
