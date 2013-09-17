@@ -33,6 +33,12 @@
 ;;       '("-S -U --hidden"
 ;;         "-S -U -l"))
 
+;; Commands
+;; helm-ag-r-current-file -- search from current file
+;; helm-ag-r-from-git-repo -- search from git repository
+;; helm-ag-r-shell-history -- search shell history
+;; helm-ag-r-git-logs -- search git logs
+
 (eval-when-compile (require 'cl))
 (require 'helm)
 
@@ -126,6 +132,15 @@
         collect cmd))
 
 (defun helm-ag-r-pype (command &optional source)
+  "This function serve ag's search and display by helm utility
+ after user execute shell-command. the `command' is shell command to pass to
+ shell. the `source' is helm's source to override `helm-ag-r-source'.
+ Perhaps you want to override this source to change action.
+Example:
+  Search from git log
+  (helm-ag-r-pype \"git log --all --oneline\" '((action . do-something)))
+  Search from history(perhaps you need to format it)
+  (helm-ag-r-pype \"tac ~/.zsh_history\")"
   (let ((helm-ag-r-base-command command))
     (helm-ag-r nil source)))
 
@@ -170,6 +185,10 @@
 
 ;;;###autoload
 (defun helm-ag-r (&optional file-or-directory source)
+  "Search file or directory by ag, default is `default-directory' variable
+ (i.e. current directory). the `file-or-directory' is passed to ag's [PATH].
+ If you set the `source' argument, override helm-ag-r-source variable by
+ your specified source.(but not delete original source)e"
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
   (let* ((src (if source
@@ -182,10 +201,13 @@
 
 ;;;###autoload
 (defun helm-ag-r-current-file ()
+  "Search from current-file"
   (interactive)
   (helm-ag-r buffer-file-name))
 
 (defun helm-ag-r-change-option ()
+  "Change ag's option, you should specify your favorite ag's option to
+ `helm-ag-r-option-list'."
   (interactive)
   (setq helm-ag-r-option-list
         (append
@@ -195,6 +217,7 @@
 
 ;;;###autoload
 (defun helm-ag-r-from-git-repo ()
+  "Search from git repository"
   (interactive)
   (helm-ag-r (helm-ag-r-get-top-dir)))
 
