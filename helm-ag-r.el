@@ -1,4 +1,38 @@
 ;;; -*- coding: utf-8; mode: emacs-lisp; -*-
+;;; helm-ag-r.el --- Search something by ag and display by helm
+
+;; Copyright (C) 2013 by Yuta Yamada
+
+;; Author: Yuta Yamada <cokesboy"at"gmail.com>
+;; URL: https://github.com/yuutayamada/helm-ag-r
+;; Version: 0.0.1
+;; Package-Requires: ((helm "20130916"))
+;; Keywords: Searching
+
+;;; License:
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;; Usage(sample)
+;; set below configuration to your .emacs
+;; (add-to-list 'load-path "path/to/this-package-directory")
+;; (require 'helm-ag-r)
+;; You can change ag's option by pushing C-o from below variable on minibuffer
+;; See ag --help about available option
+;; (setq helm-ag-r-option-list
+;;       '("-S -U --hidden"
+;;         "-S -U -l"))
+
 (eval-when-compile (require 'cl))
 (require 'helm)
 
@@ -156,3 +190,5 @@
         (file-name-as-directory (expand-file-name repository-top cwd))))))
 
 (provide 'helm-ag-r)
+
+;;; helm-ag-r.el ends here
