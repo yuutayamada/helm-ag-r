@@ -139,6 +139,15 @@
                    (term-mode (term-send-raw-string line))
                    (t (insert line))))))))
 
+(defun helm-ag-r-git-logs (&optional options)
+  "Search git's commit"
+  (interactive)
+  (let ((opts (or "--all --oneline --pretty=format:%s"
+                  options)))
+    (helm-ag-r-pype
+   (concat "git log " opts)
+   '((action . (lambda (line) (insert line)))))))
+
 (defvar helm-ag-r-function
   (lambda ()
     (start-process
