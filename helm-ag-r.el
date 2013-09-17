@@ -187,7 +187,7 @@ Example:
   "Search file or directory by ag, default is `default-directory' variable
  (i.e. current directory). the `file-or-directory' is passed to ag's [PATH].
  If you set the `source' argument, override helm-ag-r-source variable by
- your specified source.(but not delete original source)e"
+ your specified source.(but not delete original source)"
   (interactive)
   (setq helm-ag-r-directory (or file-or-directory default-directory))
   (let* ((src (if source
