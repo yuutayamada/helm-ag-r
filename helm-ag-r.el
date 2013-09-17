@@ -41,6 +41,9 @@
 (defvar helm-ag-r-current-command '())
 (defvar helm-ag-r-base-command nil)
 (defvar helm-ag-r-user-option nil)
+(defvar helm-ag-r-histfile
+  (shell-command-to-string "echo -n $HISTFILE")
+  "history file to use at helm-ag-r-shell-history function")
 
 (defvar helm-ag-r-source
   '((name               . "helm-ag-r")
@@ -125,6 +128,16 @@
 (defun helm-ag-r-pype (command &optional source)
   (let ((helm-ag-r-base-command command))
     (helm-ag-r nil source)))
+
+(defun helm-ag-r-shell-history ()
+  "Search shell history(I don't make sure without zsh)"
+  (interactive)
+  (helm-ag-r-pype
+   (concat "tac " helm-ag-r-histfile " | sed 's/^: [0-9]*:[0-9];//'")
+   '((action . (lambda (line)
+                 (case major-mode
+                   (term-mode (term-send-raw-string line))
+                   (t (insert line))))))))
 
 (defvar helm-ag-r-function
   (lambda ()
