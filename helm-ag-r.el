@@ -1,4 +1,3 @@
-;;; -*- coding: utf-8; mode: emacs-lisp; -*-
 ;;; helm-ag-r.el --- Search something by ag and display by helm
 
 ;; Copyright (C) 2013 by Yuta Yamada
@@ -235,5 +234,10 @@ Example:
         (file-name-as-directory (expand-file-name repository-top cwd))))))
 
 (provide 'helm-ag-r)
+
+;; Local Variables:
+;; coding: utf-8
+;; mode: emacs-lisp
+;; End:
 
 ;;; helm-ag-r.el ends here
