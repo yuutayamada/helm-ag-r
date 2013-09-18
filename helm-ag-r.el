@@ -41,17 +41,30 @@
 (eval-when-compile (require 'cl))
 (require 'helm)
 
-(defvar helm-ag-r-dir-or-file '())
-(defvar helm-ag-r-option-list '())
-(defvar helm-ag-r-current-command '())
-(defvar helm-ag-r-base-command nil)
-(defvar helm-ag-r-user-option nil)
+;; User customize variable
+(defvar helm-ag-r-option-list '()
+  "This variable is utilize as ag's option.
+ Example:
+  (setq helm-ag-r-option-list
+       '(\"-S -U --hidden\"
+         \"-S -U -l\"))")
+
 (defvar helm-ag-r-histfile
   (shell-command-to-string "echo -n $HISTFILE")
   "history file to use at helm-ag-r-shell-history function")
 
-(defvar helm-ag-r-google-contacts-email-address ""
-  "User email address to use at google contacts")
+(defvar helm-ag-r-google-contacts-user
+  (let ((case-fold-search nil))
+    (if (string-match "@gmail.com$" user-mail-address)
+        user-mail-address
+      ""))
+  "User(mail address). It is specified to -u option, see 'man google'")
+
+;; Used in function
+(defvar helm-ag-r-dir-or-file '())
+(defvar helm-ag-r-current-command '())
+(defvar helm-ag-r-base-command nil)
+(defvar helm-ag-r-user-option nil)
 
 (defvar helm-ag-r-source
   '((name               . "helm-ag-r")
@@ -149,13 +162,6 @@ Example:
 (defvar helm-ag-r-google-contacts-lang (getenv "LANG")
   "LANG configuration, if you are Japanese, you should set ja_JP.utf-8.
  It is set $LANG environment by default to this variable.")
-
-(defvar helm-ag-r-google-contacts-user
-  (let ((case-fold-search nil))
-    (if (string-match "@gmail.com$" user-mail-address)
-        user-mail-address
-      ""))
-  "User(mail address). It is specified to -u option, see 'man google'")
 
 ;; Todo: apply multiple mail address
 (defun helm-ag-r-google-contacts-list ()
