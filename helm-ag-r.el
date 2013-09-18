@@ -41,7 +41,7 @@
 (eval-when-compile (require 'cl))
 (require 'helm)
 
-(defvar helm-ag-r-directory '())
+(defvar helm-ag-r-dir-or-file '())
 (defvar helm-ag-r-option-list '())
 (defvar helm-ag-r-current-command '())
 (defvar helm-ag-r-base-command nil)
@@ -107,7 +107,7 @@
                            (assoc-default attr helm-ag-r-actions))
                           helm-ag-r-source)))
          (patterns (split-string pattern))
-         (dir-or-file helm-ag-r-directory)
+         (dir-or-file helm-ag-r-dir-or-file)
          (ag-commands
           (mapconcat 'identity (helm-ag-r-create-command patterns) " | ")))
       (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
@@ -128,7 +128,7 @@
         for options = (car helm-ag-r-option-list) then " "
         for search-word in patterns
         for search = (shell-quote-argument search-word)
-        for d-f = helm-ag-r-directory then ""
+        for d-f = helm-ag-r-dir-or-file then ""
         for full = (concat ag " " options " " search " " d-f)
         for cmd = (funcall first-command ag search full) then full
         collect cmd))
@@ -221,7 +221,7 @@ google-cl package. If you are Ubuntu user you can install by
  If you set the `source' argument, override helm-ag-r-source variable by
  your specified source.(but not delete original source)"
   (interactive)
-  (setq helm-ag-r-directory (or file-or-directory default-directory))
+  (setq helm-ag-r-dir-or-file (or file-or-directory default-directory))
   (let* ((src (if source
                   (helm-ag-r-override-source source)
                 helm-ag-r-source)))
