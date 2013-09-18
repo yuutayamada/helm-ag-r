@@ -136,8 +136,8 @@
                                            " | " ag " " search)
                                  full))
         with opt = helm-ag-r-user-option
-        with ag-base = (when opt (concat "ag " opt))
-        for ag = (or ag-base "ag --nocolor --nogroup") then "ag --nocolor"
+        with ag-base = (if opt (concat "ag " opt) "ag --nocolor --nogroup")
+        for ag = ag-base then "ag --nocolor"
         for options = (car helm-ag-r-option-list) then " "
         for search-word in patterns
         for search = (shell-quote-argument search-word)
