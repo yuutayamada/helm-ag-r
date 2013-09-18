@@ -170,7 +170,7 @@ google-cl package. If you are Ubuntu user you can install by
  `apg-get install googlecl'."
   (interactive)
   (let* ((language helm-ag-r-google-contacts-lang)
-         (user (or user-mail-address))
+         (user helm-ag-r-google-contacts-user)
          (command
           (format "LANG=%s google contacts list '' -u %s"
                   language user)))
