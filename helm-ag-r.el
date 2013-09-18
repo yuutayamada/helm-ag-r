@@ -50,6 +50,9 @@
   (shell-command-to-string "echo -n $HISTFILE")
   "history file to use at helm-ag-r-shell-history function")
 
+(defvar helm-ag-r-google-contacts-email-address ""
+  "User email address to use at google contacts")
+
 (defvar helm-ag-r-source
   '((name               . "helm-ag-r")
     (header-name        . (lambda (name)
@@ -142,6 +145,33 @@ Example:
   (helm-ag-r-pype \"tac ~/.zsh_history\")"
   (let ((helm-ag-r-base-command command))
     (helm-ag-r nil source)))
+
+(defvar helm-ag-r-google-contacts-lang (getenv "LANG")
+  "LANG configuration, if you are Japanese, you should set ja_JP.utf-8.
+ It is set $LANG environment by default to this variable.")
+
+(defvar helm-ag-r-google-contacts-user
+  (let ((case-fold-search nil))
+    (if (string-match "@gmail.com$" user-mail-address)
+        user-mail-address
+      ""))
+  "User(mail address). It is specified to -u option, see 'man google'")
+
+;; Todo: apply multiple mail address
+(defun helm-ag-r-google-contacts-list ()
+  "Search from google contacts. To use this function, you need to install
+google-cl package. If you are Ubuntu user you can install by
+ `apg-get install googlecl'."
+  (interactive)
+  (let* ((language helm-ag-r-google-contacts-lang)
+         (user (or user-mail-address))
+         (command
+          (format "LANG=%s google contacts list '' -u %s"
+                  language user)))
+    (helm-ag-r-pype
+     command
+     '((action . (lambda (line)
+                   (insert (nth 1 (split-string line ",")))))))))
 
 ;;;###autoload
 (defun helm-ag-r-shell-history ()
