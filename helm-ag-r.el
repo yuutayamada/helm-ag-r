@@ -197,7 +197,7 @@ google-cl package. If you are Ubuntu user you can install by
 (defvar helm-ag-r-function
   (lambda ()
     (start-process
-     "emacs-helm-ag-rrocess" nil "/bin/sh" "-c"
+     "emacs-helm-ag-r-process" nil "/bin/sh" "-c"
      (funcall helm-ag-r-get-command helm-pattern))))
 
 (defvar helm-ag-r-keymap
