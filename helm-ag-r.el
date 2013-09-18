@@ -188,8 +188,8 @@ google-cl package. If you are Ubuntu user you can install by
 (defun helm-ag-r-git-logs (&optional options)
   "Search git's commit"
   (interactive)
-  (let ((opts (or "--all --oneline --pretty=format:%s"
-                  options)))
+  (let ((opts (or options
+                  "--all --oneline --pretty=format:%s")))
     (helm-ag-r-pype
    (concat "git log " opts)
    '((action . (lambda (line) (insert line)))))))
