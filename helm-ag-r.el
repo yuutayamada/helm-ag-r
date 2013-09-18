@@ -143,6 +143,7 @@ Example:
   (let ((helm-ag-r-base-command command))
     (helm-ag-r nil source)))
 
+;;;###autoload
 (defun helm-ag-r-shell-history ()
   "Search shell history(I don't make sure without zsh)"
   (interactive)
@@ -153,6 +154,7 @@ Example:
                    (term-mode (term-send-raw-string line))
                    (t (insert line))))))))
 
+;;;###autoload
 (defun helm-ag-r-git-logs (&optional options)
   "Search git's commit"
   (interactive)
