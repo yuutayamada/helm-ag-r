@@ -78,11 +78,12 @@
 
 (defun helm-ag-r-remove-dir-name (line)
   (if (string-match "^.+:[0-9]+:." line)
-      (let* ((all (split-string line ":"))
-             (path    (file-relative-name (nth 0 all)))
-             (num     (nth 1 all))
-             (content (nth 2 all)))
-        (mapconcat 'identity (list path num content) ":"))
+      (let (path num content)
+        (string-match "^\\(.+\\):\\([0-9]+\\):\\(.+\\)" line)
+        (setq path (match-string 1 line)
+              num (match-string 2 line)
+              content (match-string 3 line))
+        (format "%s:%s:%s" (file-relative-name path) num content))
     line))
 
 (defun helm-ag-r-find-file-action (candidate find-func)
