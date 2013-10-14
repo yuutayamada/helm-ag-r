@@ -60,6 +60,10 @@
       ""))
   "User(mail address). It is specified to -u option, see 'man google'")
 
+(defvar helm-ag-r-google-contacts-lang (getenv "LANG")
+  "LANG configuration, if you are Japanese, you should set ja_JP.utf-8.
+ It is set $LANG environment by default to this variable.")
+
 ;; Used in function
 (defvar helm-ag-r-dir-or-file '())
 (defvar helm-ag-r-current-command '())
@@ -159,10 +163,6 @@ Example:
   (helm-ag-r-pype \"tac ~/.zsh_history\")"
   (let ((helm-ag-r-base-command command))
     (helm-ag-r nil source)))
-
-(defvar helm-ag-r-google-contacts-lang (getenv "LANG")
-  "LANG configuration, if you are Japanese, you should set ja_JP.utf-8.
- It is set $LANG environment by default to this variable.")
 
 ;; Todo: apply multiple mail address
 (defun helm-ag-r-google-contacts-list ()
