@@ -229,9 +229,9 @@ google-cl package. If you are Ubuntu user you can install by
  your specified source.(but not delete original source)"
   (interactive)
   (setq helm-ag-r-dir-or-file (or file-or-directory default-directory))
-  (let* ((src (if source
-                  (helm-ag-r-override-source source)
-                helm-ag-r-source)))
+  (let ((src (if source
+                 (helm-ag-r-override-source source)
+               helm-ag-r-source)))
     (helm :sources src
           :prompt "ag: "
           :buffer "*helm ag r"
