@@ -43,8 +43,10 @@ Try following configuration.
       helm-ag-r-requires-pattern 3   ; <- this is default
       ;; Delay input
       helm-ag-r-input-idle-delay 0.5 ; <- this is default
+      ;; Display candidate only you specified number
+      helm-ag-r-candidate-limit 100  ; <- default is helm-candidate-number-limit
       ;; Don't highlight machining words
-      helm-ag-r-use-no-highlight t)  : <- default is nil
+      helm-ag-r-use-no-highlight t)  : <- default is nil(t means no highlight)
 ```
 
 ### Commands
