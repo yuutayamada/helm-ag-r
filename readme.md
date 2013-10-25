@@ -27,7 +27,7 @@ And then you can install this package by M-x el-get-install helm-ag-r RET.
 (require 'helm-ag-r)
 ;; Specify your favorite ag's configuration
 ;; You can change below option by pushing C-o on helm-ag-r's minibuffer.
-(setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -l")
+(setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -g")
       ;; start searching from 3 character
       helm-ag-r-requires-pattern 3
       ;; delay searching from input

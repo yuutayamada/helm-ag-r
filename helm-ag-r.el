@@ -60,7 +60,7 @@
 Example:
   (setq helm-ag-r-option-list
        '(\"-S -U --hidden\"
-         \"-S -U -l\"))")
+         \"-S -U -g\"))")
 
 (defvar helm-ag-r-requires-pattern 3
   "Minimum number that helm start searching.")
