@@ -87,10 +87,10 @@
     (candidates-process . (lambda ()
                             (funcall helm-ag-r-function)))
     (candidates-in-buffer)
-    (real-to-display . helm-ag-r-remove-dir-name)
+    (real-to-display    . helm-ag-r-replace-dir-name)
     (delayed)))
 
-(defun helm-ag-r-remove-dir-name (line)
+(defun helm-ag-r-replace-dir-name (line)
   (if (string-match "^.+:[0-9]+:." line)
       (let (path num content)
         (string-match "^\\(.+\\):\\([0-9]+\\):\\(.+\\)" line)
