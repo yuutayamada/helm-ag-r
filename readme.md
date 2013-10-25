@@ -6,23 +6,31 @@ This is program to search something by [ag](https://github.com/ggreer/the_silver
 You need to install **ag** and **helm** to use this package.
 
 ### Installation
+You can install MELPA by M-x package-install command.
+
 If you use el-get, you set below configuration to your .emacs.
 
-    (push '(:name helm-ag-r
-            :type git
-            :url "https://github.com/yuutayamada/helm-ag-r.git"
-            :depends (helm)
-            :load-path "./")
-            el-get-sources)
+```lisp
+(push '(:name helm-ag-r
+        :type git
+        :url "https://github.com/yuutayamada/helm-ag-r.git"
+        :depends (helm)
+        :load-path "./")
+        el-get-sources)
+```
 
 And then you can install this package by M-x el-get-install helm-ag-r RET.
 
 ### Configuration
 
-    (require 'helm-ag-r)
-    ;; Specify your favorite ag's configuration
-    ;; You can change below option by pushing C-o on helm-ag-r's minibuffer.
-    (setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -l"))
+```lisp
+(require 'helm-ag-r)
+;; Specify your favorite ag's configuration
+;; You can change below option by pushing C-o on helm-ag-r's minibuffer.
+(setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -l")
+      ;; start searching from 3 character
+      helm-ag-r-requires-pattern 3)
+```
 
 ### Commands
 You can use below commands:
