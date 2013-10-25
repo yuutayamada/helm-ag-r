@@ -267,8 +267,8 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
                helm-ag-r-source)))
     (helm :sources src
           :prompt "ag: "
-          :buffer "*helm ag r"
           :keymap helm-ag-r-keymap)))
+          :buffer "*helm-ag-r*"
 
 ;;;###autoload
 (defun helm-ag-r-current-file ()
