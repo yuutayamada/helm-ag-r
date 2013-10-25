@@ -29,7 +29,9 @@ And then you can install this package by M-x el-get-install helm-ag-r RET.
 ;; You can change below option by pushing C-o on helm-ag-r's minibuffer.
 (setq helm-ag-r-option-list '("-S -U --hidden" "-S -U -l")
       ;; start searching from 3 character
-      helm-ag-r-requires-pattern 3)
+      helm-ag-r-requires-pattern 3
+      ;; delay searching from input
+      helm-ag-r-input-idle-delay 0.5)
 ```
 
 ### Commands
