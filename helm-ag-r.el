@@ -138,22 +138,23 @@ if you are Japanese, you should set ja_JP.utf-8.")
 
 (defvar helm-ag-r-get-command
   (lambda (pattern)
-    (let*
-        ((set-attribute
-          (lambda (attr)
-            (helm-attrset 'action
-                          (car
-                           (assoc-default attr helm-ag-r-actions))
-                          helm-ag-r-source)))
-         (patterns (split-string pattern))
-         (dir-or-file helm-ag-r-dir-or-file)
-         (ag-commands
-          (mapconcat 'identity (helm-ag-r-create-command patterns) " | ")))
-      (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
-          (funcall set-attribute :move)
-        (funcall set-attribute :open))
-      (setq helm-ag-r-current-command ag-commands)
-      ag-commands)))
+    (when (<= helm-ag-r-requires-pattern (length pattern))
+      (let*
+          ((set-attribute
+            (lambda (attr)
+              (helm-attrset 'action
+                            (car
+                             (assoc-default attr helm-ag-r-actions))
+                            helm-ag-r-source)))
+           (patterns (split-string pattern))
+           (dir-or-file helm-ag-r-dir-or-file)
+           (ag-commands
+            (mapconcat 'identity (helm-ag-r-create-command patterns) " | ")))
+        (if (and (file-exists-p dir-or-file) (not (file-directory-p dir-or-file)))
+            (funcall set-attribute :move)
+          (funcall set-attribute :open))
+        (setq helm-ag-r-current-command ag-commands)
+        ag-commands))))
 
 (defun helm-ag-r-create-command (patterns)
   "Create command for `helm-ag-r from PATTERNS."
