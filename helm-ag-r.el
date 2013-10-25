@@ -82,6 +82,9 @@ default is specified $HISTFILE.")
 Default is $LANG environment variable,
 if you are Japanese, you should set ja_JP.UTF-8.")
 
+(defvar helm-ag-r-input-idle-delay 0.5
+  "This variable delay user input.")
+
 ;; Used in function
 (defvar helm-ag-r-dir-or-file '())
 (defvar helm-ag-r-current-command '())
@@ -97,7 +100,7 @@ if you are Japanese, you should set ja_JP.UTF-8.")
     (requires-pattern   . ,helm-ag-r-requires-pattern)
     (candidates-in-buffer)
     (real-to-display    . helm-ag-r-replace-dir-name)
-    (delayed)))
+    (delayed            . ,helm-ag-r-input-idle-delay)))
 
 (defun helm-ag-r-replace-dir-name (line)
   "Replace long directory name to relative directory name in LINE."
