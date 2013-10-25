@@ -52,6 +52,7 @@
 ;;; Code:
 
 (eval-when-compile (require 'cl))
+(require 'helm-config)
 (require 'helm)
 
 ;; User customize variables
