@@ -89,6 +89,9 @@ if you are Japanese, you should set ja_JP.UTF-8.")
 (defvar helm-ag-r-use-no-highlight nil
   "Turn off highlighting of match word if you set t.")
 
+(defvar helm-ag-r-candidate-limit helm-candidate-number-limit
+  "Displaying limit.")
+
 ;; Used in function
 (defvar helm-ag-r-dir-or-file '())
 (defvar helm-ag-r-current-command '())
@@ -105,6 +108,7 @@ if you are Japanese, you should set ja_JP.UTF-8.")
     (candidates-in-buffer)
     (real-to-display    . helm-ag-r-replace-dir-name)
     (delayed            . ,helm-ag-r-input-idle-delay)
+    (candidate-number-limit . ,helm-ag-r-candidate-limit)
     ,(when helm-ag-r-use-no-highlight '(nohighlight))))
 
 (defun helm-ag-r-replace-dir-name (line)
