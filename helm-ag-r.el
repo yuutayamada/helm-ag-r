@@ -242,6 +242,7 @@ This function use OPTIONS to git log command if you are specified"
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map helm-map)
     (define-key map (kbd "C-o") 'helm-ag-r-change-option)
+    (define-key map (kbd "C-r") 'helm-ag-r-change-option-reverse)
     map))
 
 (defun helm-ag-r-override-source (source)
