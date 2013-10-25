@@ -58,6 +58,9 @@
        '(\"-S -U --hidden\"
          \"-S -U -l\"))")
 
+(defvar helm-ag-r-requires-pattern 3
+  "Minimum number that helm start searching.")
+
 (defvar helm-ag-r-histfile
   (shell-command-to-string "echo -n $HISTFILE")
   "History file to use at helm-ag-r-shell-history function.
@@ -86,6 +89,7 @@
                             (format "%s (%s)" name helm-ag-r-current-command)))
     (candidates-process . (lambda ()
                             (funcall helm-ag-r-function)))
+    (requires-pattern   . helm-ag-r-requires-pattern)
     (candidates-in-buffer)
     (real-to-display    . helm-ag-r-replace-dir-name)
     (delayed)))
