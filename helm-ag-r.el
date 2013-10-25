@@ -171,12 +171,21 @@ if you are Japanese, you should set ja_JP.UTF-8.")
         for ag = ag-base then "ag --nocolor"
         for options = (car helm-ag-r-option-list) then " "
         for search-word in patterns
-        for search = (format "\"%s\""
-                             (replace-regexp-in-string "\"" "\\\\\"" search-word))
+        for search = (helm-ag-r-format-pattern search-word)
         for d-f = helm-ag-r-dir-or-file then ""
         for full = (concat ag " " options " " search " " d-f)
         for cmd = (funcall first-command ag search full) then full
         collect cmd))
+
+(defun helm-ag-r-format-pattern (pattern)
+  "Format PATTERN double quote, brackets and so on."
+  (loop with regexps = '(("\"" "\\\\\"")
+                         ("("  "\\\\\\\\\\\\(")
+                         (")"  "\\\\\\\\\\\\)"))
+        for (from to) in regexps
+        for formatted = pattern then formatted
+        do (setq formatted (replace-regexp-in-string from to formatted))
+        finally return formatted))
 
 (defun helm-ag-r-pype (command &optional source)
   "Function that pass the COMMAND to helm-ag-r.
