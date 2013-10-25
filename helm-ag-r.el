@@ -47,13 +47,17 @@
 ;; helm-ag-r-git-logs -- search git logs
 ;; helm-ag-r-google-contacts-list -- show your google-contacts
 
+;;; Commentary:
+
+;;; Code:
+
 (eval-when-compile (require 'cl))
 (require 'helm)
 
 ;; User customize variables
 (defvar helm-ag-r-option-list '()
   "This variable is utilize as ag's option.
- Example:
+Example:
   (setq helm-ag-r-option-list
        '(\"-S -U --hidden\"
          \"-S -U -l\"))")
@@ -64,18 +68,19 @@
 (defvar helm-ag-r-histfile
   (shell-command-to-string "echo -n $HISTFILE")
   "History file to use at helm-ag-r-shell-history function.
- default is specified $HISTFILE.")
+default is specified $HISTFILE.")
 
 (defvar helm-ag-r-google-contacts-user
   (let ((case-fold-search nil))
     (if (string-match "@gmail.com$" user-mail-address)
         user-mail-address
       ""))
-  "User(mail address). It is specified to -u option, see 'man google'")
+  "User mail address for google contacts.")
 
 (defvar helm-ag-r-google-contacts-lang (getenv "LANG")
-  "LANG configuration, if you are Japanese, you should set ja_JP.utf-8.
- It is set $LANG environment by default to this variable.")
+  "Language configuration.
+Default is $LANG environment variable,
+if you are Japanese, you should set ja_JP.utf-8.")
 
 ;; Used in function
 (defvar helm-ag-r-dir-or-file '())
@@ -95,6 +100,7 @@
     (delayed)))
 
 (defun helm-ag-r-replace-dir-name (line)
+  "Replace long directory name to relative directory name in LINE."
   (if (string-match "^.+:[0-9]+:." line)
       (let (path num content)
         (string-match "^\\(.+\\):\\([0-9]+\\):\\(.+\\)" line)
@@ -105,6 +111,7 @@
     line))
 
 (defun helm-ag-r-find-file-action (candidate find-func)
+  "Action to find file related CANDIDATE by FIND-FUNC."
   (let* ((elems (split-string candidate ":"))
          (search-this-file (helm-attr 'search-this-file))
          (filename (or search-this-file (first elems)))
@@ -149,6 +156,7 @@
       ag-commands)))
 
 (defun helm-ag-r-create-command (patterns)
+  "Create command for `helm-ag-r from PATTERNS."
   (loop with first-command = (lambda (ag search full)
                                (if helm-ag-r-base-command
                                    (concat helm-ag-r-base-command
@@ -166,9 +174,11 @@
         collect cmd))
 
 (defun helm-ag-r-pype (command &optional source)
-  "This function serve ag's search and display by helm utility
- after user execute shell-command. the `command' is shell command to pass to
- shell. the `source' is helm's source to override `helm-ag-r-source'.
+  "Function that pass the COMMAND to helm-ag-r.
+This function serve ag's search and display by helm utility
+ after execute COMMAND.
+The COMMAND is shell command to pass to shell.
+The SOURCE is helm's source to override `helm-ag-r-source.
  Perhaps you want to override this source to change action.
 Example:
   Search from git log
@@ -180,8 +190,9 @@ Example:
 
 ;; Todo: apply multiple mail address
 (defun helm-ag-r-google-contacts-list ()
-  "Search from google contacts. To use this function, you need to install
-google-cl package. If you are Ubuntu user you can install by
+  "Search from google contacts.
+To use this function, you need to install google-cl package.
+If you are Ubuntu user you can install by
  `apg-get install googlecl'."
   (interactive)
   (let* ((language helm-ag-r-google-contacts-lang)
@@ -196,7 +207,7 @@ google-cl package. If you are Ubuntu user you can install by
 
 ;;;###autoload
 (defun helm-ag-r-shell-history ()
-  "Search shell history(I don't make sure without zsh)"
+  "Search shell history(I don't make sure without zsh)."
   (interactive)
   (helm-ag-r-pype
    (concat "tac " helm-ag-r-histfile " | sed 's/^: [0-9]*:[0-9];//'")
@@ -207,7 +218,8 @@ google-cl package. If you are Ubuntu user you can install by
 
 ;;;###autoload
 (defun helm-ag-r-git-logs (&optional options)
-  "Search git's commit"
+  "Search git's commit log.
+This function use OPTIONS to git log command if you are specified"
   (interactive)
   (let ((opts (or options
                   "--all --oneline --pretty=format:%s")))
@@ -228,6 +240,7 @@ google-cl package. If you are Ubuntu user you can install by
     map))
 
 (defun helm-ag-r-override-source (source)
+  "Override `helm-ag-r's original source by SOURCE."
   (loop with result = '()
         for (prefix . content) in helm-ag-r-source
         if (assoc prefix source)
@@ -237,9 +250,10 @@ google-cl package. If you are Ubuntu user you can install by
 
 ;;;###autoload
 (defun helm-ag-r (&optional file-or-directory source)
-  "Search file or directory by ag, default is `default-directory' variable
- (i.e. current directory). the `file-or-directory' is passed to ag's [PATH].
- If you set the `source' argument, override helm-ag-r-source variable by
+  "The helm-ag-r find something by ag program.
+Default is `default-directory variable
+ (i.e. current directory).  the FILE-OR-DIRECTORY is passed to ag's [PATH].
+If you set the SOURCE argument, override helm-ag-r-source variable by
  your specified source.(but not delete original source)"
   (interactive)
   (setq helm-ag-r-dir-or-file (or file-or-directory default-directory))
@@ -253,13 +267,13 @@ google-cl package. If you are Ubuntu user you can install by
 
 ;;;###autoload
 (defun helm-ag-r-current-file ()
-  "Search from current-file"
+  "Search from current-file."
   (interactive)
   (helm-ag-r buffer-file-name))
 
 (defun helm-ag-r-change-option ()
-  "Change ag's option, you should specify your favorite ag's option to
- `helm-ag-r-option-list'."
+  "Change ag's option.
+You should specify your favorite ag's option to `helm-ag-r-option-list."
   (interactive)
   (setq helm-ag-r-option-list
         (append
@@ -269,7 +283,7 @@ google-cl package. If you are Ubuntu user you can install by
 
 ;;;###autoload
 (defun helm-ag-r-from-git-repo ()
-  "Search from git repository"
+  "Search from git repository."
   (interactive)
   (helm-ag-r (helm-ag-r-get-top-dir)))
 
