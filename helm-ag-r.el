@@ -215,11 +215,11 @@ To use this function, you need to install google-cl package.
 If you are Ubuntu user you can install by
  `apg-get install googlecl'."
   (interactive)
-  (let* ((language helm-ag-r-google-contacts-lang)
-         (user helm-ag-r-google-contacts-user)
-         (command
-          (format "LANG=%s google contacts list '' -u %s"
-                  language user)))
+  (lexical-let* ((language helm-ag-r-google-contacts-lang)
+                 (user     helm-ag-r-google-contacts-user)
+                 (command
+                  (format "LANG=%s google contacts list '' -u %s"
+                          language user)))
     (helm-ag-r-pype
      command
      '((action . (lambda (line)
@@ -241,11 +241,11 @@ If you are Ubuntu user you can install by
   "Search git's commit log.
 This function use OPTIONS to git log command if you are specified"
   (interactive)
-  (let ((opts (or options
-                  "--all --oneline --pretty=format:%s")))
+  (lexical-let ((opts (or options
+                          "--all --oneline --pretty=format:%s")))
     (helm-ag-r-pype
-   (concat "git log " opts)
-   '((action . (lambda (line) (insert line)))))))
+     (concat "git log " opts)
+     '((action . (lambda (line) (insert line)))))))
 
 (defvar helm-ag-r-function
   (lambda ()
@@ -254,7 +254,7 @@ This function use OPTIONS to git log command if you are specified"
      (funcall helm-ag-r-get-command helm-pattern))))
 
 (defvar helm-ag-r-map
-  (let ((map (make-sparse-keymap)))
+  (lexical-let ((map (make-sparse-keymap)))
     (set-keymap-parent map helm-map)
     (define-key map (kbd "C-o") 'helm-ag-r-change-option)
     (define-key map (kbd "C-r") 'helm-ag-r-change-option-reverse)
@@ -278,9 +278,9 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
  your specified source.(but not delete original source)"
   (interactive)
   (setq helm-ag-r-dir-or-file (or file-or-directory default-directory))
-  (let ((src (if source
-                 (helm-ag-r-override-source source)
-               helm-ag-r-source)))
+  (lexical-let ((src (if source
+                         (helm-ag-r-override-source source)
+                       helm-ag-r-source)))
     (helm :sources src
           :prompt "ag: "
           :buffer "*helm-ag-r*"
