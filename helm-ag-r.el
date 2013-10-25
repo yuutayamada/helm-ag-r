@@ -276,15 +276,25 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
   (interactive)
   (helm-ag-r buffer-file-name))
 
-(defun helm-ag-r-change-option ()
+(defun helm-ag-r-change-option (&optional reverse)
   "Change ag's option.
-You should specify your favorite ag's option to `helm-ag-r-option-list."
+You should specify your favorite ag's option to `helm-ag-r-option-list.
+If there is REVERSE argument, then Change option by reverse order."
   (interactive)
   (setq helm-ag-r-option-list
-        (append
-         (cdr helm-ag-r-option-list)
-         (list (car helm-ag-r-option-list))))
+        (if (not reverse)
+            (append
+             (cdr helm-ag-r-option-list)
+             (list (car helm-ag-r-option-list)))
+          (append
+           (last helm-ag-r-option-list)
+           (reverse (cdr (reverse helm-ag-r-option-list))))))
   (helm-update))
+
+(defun helm-ag-r-change-option-reverse ()
+  "Change ag's option by reverse order."
+  (interactive)
+  (helm-ag-r-change-option t))
 
 ;;;###autoload
 (defun helm-ag-r-from-git-repo ()
