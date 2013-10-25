@@ -80,7 +80,7 @@ default is specified $HISTFILE.")
 (defvar helm-ag-r-google-contacts-lang (getenv "LANG")
   "Language configuration.
 Default is $LANG environment variable,
-if you are Japanese, you should set ja_JP.utf-8.")
+if you are Japanese, you should set ja_JP.UTF-8.")
 
 ;; Used in function
 (defvar helm-ag-r-dir-or-file '())
