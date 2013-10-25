@@ -238,7 +238,7 @@ This function use OPTIONS to git log command if you are specified"
      "emacs-helm-ag-r-process" nil "/bin/sh" "-c"
      (funcall helm-ag-r-get-command helm-pattern))))
 
-(defvar helm-ag-r-keymap
+(defvar helm-ag-r-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map helm-map)
     (define-key map (kbd "C-o") 'helm-ag-r-change-option)
@@ -268,8 +268,8 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
                helm-ag-r-source)))
     (helm :sources src
           :prompt "ag: "
-          :keymap helm-ag-r-keymap)))
           :buffer "*helm-ag-r*"
+          :keymap helm-ag-r-map)))
 
 ;;;###autoload
 (defun helm-ag-r-current-file ()
