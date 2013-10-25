@@ -34,6 +34,19 @@ And then you can install this package by M-x el-get-install helm-ag-r RET.
       helm-ag-r-input-idle-delay 0.5)
 ```
 
+If you think that this program too slow or unstable.
+Try following configuration.
+(You can change numbers)
+
+```lisp
+(setq ;; You need to input characters for this times to search
+      helm-ag-r-requires-pattern 3   ; <- this is default
+      ;; Delay input
+      helm-ag-r-input-idle-delay 0.5 ; <- this is default
+      ;; Don't highlight machining words
+      helm-ag-r-use-no-highlight t)  : <- default is nil
+```
+
 ### Commands
 You can use below commands:
 * helm-ag-r-current-file -- search from current file
