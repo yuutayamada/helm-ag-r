@@ -22,6 +22,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
 ;; Usage
 ;; set below configuration to your .emacs
 ;; (add-to-list 'load-path "path/to/this-package-directory")
@@ -39,15 +40,13 @@
 ;; And if you are Japanese, to use Japanese language set below configuration.
 ;; this variable set $LANG environment variable by default.
 ;; (setq helm-ag-r-google-contacts-lang "ja_JP.UTF-8")
-
+;;
 ;; Commands
 ;; helm-ag-r-current-file -- search from current file
 ;; helm-ag-r-from-git-repo -- search from git repository
 ;; helm-ag-r-shell-history -- search shell history
 ;; helm-ag-r-git-logs -- search git logs
 ;; helm-ag-r-google-contacts-list -- show your google-contacts
-
-;;; Commentary:
 
 ;;; Code:
 
