@@ -103,12 +103,8 @@ if you are Japanese, you should set ja_JP.UTF-8.")
                             (format "%s (%s)" name helm-ag-r-current-command)))
     (candidates-process     . (lambda ()
                             (funcall helm-ag-r-function)))
-    (requires-pattern       . ,helm-ag-r-requires-pattern)
     (candidates-in-buffer)
-    (candidate-number-limit . ,helm-ag-r-candidate-limit)
-    (real-to-display        . helm-ag-r-replace-dir-name)
-    (delayed                . ,helm-ag-r-input-idle-delay)
-    ,(when helm-ag-r-use-no-highlight '(nohighlight))))
+    (real-to-display        . helm-ag-r-replace-dir-name)))
 
 (defun helm-ag-r-replace-dir-name (line)
   "Replace long directory name to relative directory name in LINE."
@@ -287,8 +283,18 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
   (setq helm-ag-r-dir-or-file (or file-or-directory default-directory))
   (lexical-let ((src (if source
                          (helm-ag-r-override-source source)
-                       helm-ag-r-source)))
-    (helm :sources src
+                       helm-ag-r-source))
+                (append-source
+                 (lambda (source)
+                   (append
+                    source
+                    (when helm-ag-r-use-no-highlight
+                      '((nohighlight)))
+                    (when helm-ag-r-candidate-limit
+                      `((candidate-number-limit . ,helm-ag-r-candidate-limit)))
+                    (when helm-ag-r-input-idle-delay
+                      `((delayed . ,helm-ag-r-input-idle-delay)))))))
+    (helm :sources (funcall append-source src)
           :prompt "ag: "
           :buffer "*helm-ag-r*"
           :keymap helm-ag-r-map)))
