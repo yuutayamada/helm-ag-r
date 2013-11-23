@@ -96,6 +96,7 @@ if you are Japanese, you should set ja_JP.UTF-8.")
 (defvar helm-ag-r-current-command '())
 (defvar helm-ag-r-base-command nil)
 (defvar helm-ag-r-user-option nil)
+(defvar helm-ag-r-buffer "*helm-ag-r*")
 
 (defvar helm-ag-r-source
   `((name                   . "helm-ag-r")
@@ -296,7 +297,7 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
                       `((delayed . ,helm-ag-r-input-idle-delay)))))))
     (helm :sources (funcall append-source src)
           :prompt "ag: "
-          :buffer "*helm-ag-r*"
+          :buffer helm-ag-r-buffer
           :keymap helm-ag-r-map)))
 
 ;;;###autoload
