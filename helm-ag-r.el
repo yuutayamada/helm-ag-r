@@ -197,12 +197,13 @@ if you are Japanese, you should set ja_JP.UTF-8.")
         do (setq formatted (replace-regexp-in-string from to formatted))
         finally return formatted))
 
-(defun helm-ag-r-pype (command &optional source)
+(defun helm-ag-r-pype (command &optional source buffer)
   "Function that pass the COMMAND to helm-ag-r.
 This function serve ag's search and display by helm utility
  after execute COMMAND.
 The COMMAND is shell command to pass to shell.
 The SOURCE is helm's source to override `helm-ag-r-source.
+The BUFFER is buffer name.
  Perhaps you want to override this source to change action.
 Example:
   Search from git log
@@ -210,7 +211,7 @@ Example:
   Search from history(perhaps you need to format it)
   (helm-ag-r-pype \"tac ~/.zsh_history\")"
   (let ((helm-ag-r-base-command command))
-    (helm-ag-r nil source)))
+    (helm-ag-r nil source buffer)))
 
 ;; Todo: apply multiple mail address
 (defun helm-ag-r-google-contacts-list ()
@@ -274,7 +275,7 @@ This function use OPTIONS to git log command if you are specified"
         finally return result))
 
 ;;;###autoload
-(defun helm-ag-r (&optional file-or-directory source)
+(defun helm-ag-r (&optional file-or-directory source buffer)
   "The helm-ag-r find something by ag program.
 Default is `default-directory variable
  (i.e. current directory).  the FILE-OR-DIRECTORY is passed to ag's [PATH].
@@ -297,7 +298,7 @@ If you set the SOURCE argument, override helm-ag-r-source variable by
                       `((delayed . ,helm-ag-r-input-idle-delay)))))))
     (helm :sources (funcall append-source src)
           :prompt "ag: "
-          :buffer helm-ag-r-buffer
+          :buffer (or buffer helm-ag-r-buffer)
           :keymap helm-ag-r-map)))
 
 ;;;###autoload
