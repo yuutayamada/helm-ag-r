@@ -122,7 +122,7 @@ if you are Japanese, you should set ja_JP.UTF-8.")
   "Action to find file related CANDIDATE by FIND-FUNC."
   ;; -g or -G options are search from file.
   ;; If this option is specified, result is not containing ":".
-  (if (not (string-match "\-[gG]" (first helm-ag-r-option-list)))
+  (if (not (string-match "\-[gG]" (or (first helm-ag-r-option-list) "")))
       (lexical-let*
           ((elems (split-string candidate ":"))
            (search-this-file (helm-attr 'search-this-file))
